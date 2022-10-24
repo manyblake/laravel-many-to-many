@@ -15,9 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = Post::limit(50)->get();
+        $posts = Post::limit(50)->get();
 
-        return view('admin.posts.index');
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -38,7 +38,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->validate([
+            'title' => 'required|max:255|min:5',
+            'content' => 'required',
+        ]);
+
+        $params['slug'] = str_replace(' ', '-', $params['title']);
+
+        $post = Post::create($params);
+
+        return redirect()->route('admin.posts.show', $post);
     }
 
     /**
@@ -58,9 +67,11 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -70,9 +81,18 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $params = $request->validate([
+            'title' => 'required|max:255|min:5',
+            'content' => 'required',
+        ]);
+
+        $post->update($params);
+
+        return redirect()->route('admin.posts.show', $post);
     }
 
     /**
