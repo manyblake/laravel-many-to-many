@@ -47,6 +47,17 @@
           @enderror
         </div>
 
+        <label class="d-block " for="category">Tag:</label>
+        <div class="form-group d-flex justify-content-between">
+          @foreach($tags as $key => $tag)
+            <div class="form-check form-check-inline flex-fill justify-content-center">
+              <input  class="form-check-input" name="tags[]" @if( in_array($tag->id, old('tags',[]) ) ) checked @endif
+              type="checkbox" id="tag-{{$tag->id}}" value="{{ $tag->id }}">
+              <label class="form-check-label" for="tag-{{$tag->id}}">{{ $tag->name }}</label>
+            </div>
+          @endforeach
+        </div>
+
         <div class="form-group">
           <label for="content">Contenuto</label>
           <textarea class="form-control" id="content" name="content" rows="20" placeholder="Contenuto del post">{{ old('content') }}</textarea>

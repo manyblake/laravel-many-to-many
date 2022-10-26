@@ -29,7 +29,7 @@ class PostSeeder extends Seeder
 
             $post->save();
 
-            $tagIds = $tags->shuffle()->take(3)->all();
+            $tagIds = $tags->shuffle()->take(rand(1, 4))->all();
             $post->tags()->sync($tagIds);
         }
     }

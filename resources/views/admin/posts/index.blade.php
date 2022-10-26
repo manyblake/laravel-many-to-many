@@ -34,9 +34,9 @@
             <td>
               <ul>
                 @foreach ($post->tags as $tag)
-                <li>
-                  {{ $tag->name }}
-                </li>
+                  <li>
+                    {{ $tag->name }}
+                  </li>
                 @endforeach
               </ul>
             </td>
