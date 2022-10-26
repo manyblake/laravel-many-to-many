@@ -16,6 +16,8 @@
           <tr>
             <th>#</th>
             <th>Title</th>
+            <th>Category</th>
+            <th>Tag</th>
             <th>Slug</th>
             <th>Created at</th>
             <th></th>
@@ -27,7 +29,19 @@
           <tr>
             <th>{{ $post->id }}</th>
             <td>{{ $post->title }}</td>
+            <td>{{ $post->category ? $post->category->name : '-' }}</td>
+
+            <td>
+              <ul>
+                @foreach ($post->tags as $tag)
+                <li>
+                  {{ $tag->name }}
+                </li>
+                @endforeach
+              </ul>
+            </td>
             <td>{{ $post->slug }}</td>
+
             <td>{{ $post->created_at }}</td>
             <td>
               <a href="{{ route('admin.posts.show', $post) }}" type="button" class="btn btn-secondary btn-sm">vedi</a>

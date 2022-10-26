@@ -7,9 +7,23 @@
     <div class="col-8">
       <h1>{{ $post->title }}</h1>
       <p>{{ $post->slug }}</p>
-      <ul class="d-flex gap-2">
-        <li>{{ $post->created_at }}</li>
-        <li>{{ $post->updated_at }}</li>
+
+      @if($post->category)
+        <p>Categoria: {{ $post->category->name }}</p>
+      @endif
+
+      <ul class="d-flex">
+          <li class="p-2">Tags:</li>
+          @foreach ($post->tags as $tag)
+            <li class="p-2">
+              {{ $tag->name }}
+            </li>
+          @endforeach
+      </ul>
+
+      <ul class="d-flex">
+        <li class="p-2">Created at: {{ $post->created_at }}</li>
+        <li class="p-2">Updated at: {{ $post->updated_at }}</li>
       </ul>
     </div>
     <div class="col-4 text-left d-flex justify-content-end align-items-center">
@@ -32,6 +46,28 @@
         {{ $post->content }}
       </p>
     </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="row">
+    <ul class="col-12">
+      @if($post->category && $post->category->posts)
+        <p>Vedi altri post della stessa categoria:</p>
+      @endif
+
+      @if($post->category)
+        @foreach($post->category->posts()->where('id','!=',$post->id)->get() as $relatedPost)
+          <li>
+            <a href="{{ route('admin.posts.show',$relatedPost) }}">
+              {{ $relatedPost->title }}
+            </a>
+          </li>
+        @endforeach
+      @endif
+    </ul>
   </div>
 </div>
 
