@@ -33,6 +33,20 @@
         </div>
 
         <div class="form-group">
+          <label for="image">Immagine Copertina</label>
+          <div class="custom-file">
+            <input type="file" name="image" class="custom-file-input @error('image') is-invalid @enderror" id="validatedCustomFile" required>
+            <label class="custom-file-label" for="image">Aggiungi un'immagine</label>
+
+            @error('image')
+            <div id="image" class="invalid-feedback">
+              {{ $message }}
+            </div>
+            @enderror
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="category">Categoria</label>
           <select name="category_id" class="custom-select @error('category_id') is-invalid @enderror" >
             <option value="">-- nessuna --</option>

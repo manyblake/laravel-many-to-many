@@ -8,6 +8,7 @@ use App\Post;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -47,10 +48,16 @@ class PostController extends Controller
             'title' => 'required|max:255|min:5',
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'exists:tags,id'
+            'tags' => 'exists:tags,id',
+            'image' => 'nullable|image|max:2048'
         ]);
 
         $params['slug'] = Post::getUniqueSlugFrom($params['title']);
+
+        if (array_key_exists('image', $params)) {
+            $img_path = Storage::put('uploads', $params['image']);
+            $params['cover'] = $img_path;
+        }
 
         $post = Post::create($params);
 
@@ -93,17 +100,8 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        $post = Post::findOrFail($id);
-
-        $params = $request->validate([
-            'title' => 'required|max:255|min:5',
-            'content' => 'required',
-        ]);
-
-        $post->update($params);
-
         $params = $request->validate([
             'title' => 'required|max:255|min:5',
             'content' => 'required',
