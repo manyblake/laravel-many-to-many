@@ -10940,6 +10940,7 @@ a.text-dark:focus {
 
 ul {
   list-style-type: none;
+  margin: 0;
 }
 
 a {
@@ -10977,7 +10978,8 @@ tr {
 }
 
 td {
-  padding: 0 4px;
+  padding: 4px;
+  vertical-align: middle;
 }
 
 td:not(:nth-child(2),

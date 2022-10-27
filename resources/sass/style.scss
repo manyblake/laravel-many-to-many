@@ -35,7 +35,8 @@ tr {
 }
 
 td {
-    padding: 0 4px;
+    padding: 4px;
+    vertical-align: middle;
 }
 
 td:not(:nth-child(2), :nth-child(5)) {

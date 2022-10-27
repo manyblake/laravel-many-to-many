@@ -7,8 +7,10 @@ use App\Tag;
 use App\Post;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendPostCreatedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -65,6 +67,8 @@ class PostController extends Controller
             $tags = $params['tags'];
             $post->tags()->sync($tags);
         }
+
+        Mail::to($request->user())->send(new SendPostCreatedMail($post));
 
         return redirect()->route('admin.posts.show', $post);
     }
