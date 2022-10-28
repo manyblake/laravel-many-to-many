@@ -27,6 +27,11 @@ class PostSeeder extends Seeder
             $post->slug = Str::slug($post->title);
             $post->category_id = $faker->optional()->randomElement($categoryId);
 
+            $coverId = $faker->optional()->numberBetween(200, 500);
+            if ($coverId) {
+                $post->cover = 'https://picsum.photos/' . $coverId;
+            }
+
             $post->save();
 
             $tagIds = $tags->shuffle()->take(rand(1, 4))->all();
